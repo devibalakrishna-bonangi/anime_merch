@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Checkout - AnimeLoot</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo">ANIME LOOT</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shop.html">Shop</a></li>
+        </ul>
+        <div id="auth-buttons"></div>
+        <div id="user-info" class="user-info" style="display:none; align-items:center; gap:0.5rem;">
+            <div class="user-badge" style="display:flex;align-items:center;gap:0.6rem;">
+                <div id="user-avatar" class="avatar">AA</div>
+                <div class="user-meta">
+                    <div id="username-display" class="username" style="color:var(--accent-cyan);"></div>
+                    <div id="user-role" class="role-badge" style="display:none;">role</div>
+                </div>
+            </div>
+            <button id="logout-btn" class="btn btn-secondary">Logout</button>
+        </div>
+    </nav>
+
+    <main style="max-width:960px;margin:2rem auto;padding:0 1rem;">
+        <h1>Checkout</h1>
+
+        <section id="cart-section">
+            <div id="cart-list"></div>
+            <div id="cart-summary" style="margin-top:1rem;"></div>
+            <div style="margin-top:1rem; display:flex; gap:1rem;">
+                <button id="clear-cart" class="btn btn-secondary">Clear Cart</button>
+                <button id="checkout-btn" class="btn btn-primary">Place Order</button>
+            </div>
+        </section>
+
+        <section id="order-result" style="margin-top:1.5rem;"></section>
+    </main>
+
+    <script src="auth.js"></script>
+    <script src="cart.js"></script>
+    <script src="checkout.js"></script>
+</body>
+</html>

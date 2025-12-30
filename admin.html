@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - AnimeLoot</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo">ANIME LOOT</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="admin.html">Dashboard</a></li>
+        </ul>
+        <div id="user-info">
+            <span id="username-display" style="margin-right: 10px; color: var(--accent-cyan);"></span>
+            <button id="logout-btn" class="btn btn-secondary">Logout</button>
+        </div>
+    </nav>
+
+    <div class="admin-table-container">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <h2 style="color: var(--accent-pink);">Product Management</h2>
+            <button class="btn btn-primary" id="add-product-btn">Add New Product</button>
+        </div>
+
+        <table id="products-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Populated by JS -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Add/Edit Modal -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modal-title" style="color: var(--accent-cyan); margin-bottom: 1rem;">Add Product</h2>
+            <form id="product-form">
+                <input type="hidden" id="product-id">
+                <div class="form-group">
+                    <label for="p-name">Name</label>
+                    <input type="text" id="p-name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="p-price">Price</label>
+                    <input type="number" id="p-price" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="p-category">Category</label>
+                    <input type="text" id="p-category" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="p-image">Image URL / Filename</label>
+                    <input type="text" id="p-image" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="p-desc">Description</label>
+                    <textarea id="p-desc" class="form-control" rows="3" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Save Product</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+    <script src="auth.js"></script>
+
+</body>
+
+</html>

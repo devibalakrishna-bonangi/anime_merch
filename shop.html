@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - AnimeLoot</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo">ANIME LOOT</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="checkout.html">Cart <span id="cart-count" style="background:var(--accent-cyan);color:#fff;padding:0.1rem 0.4rem;border-radius:12px;font-size:0.85rem;margin-left:6px;">0</span></a></li>
+            <li id="admin-link" style="display: none;"><a href="admin.html">Admin Panel</a></li>
+        </ul>
+        <div id="auth-buttons">
+            <a href="login.html" class="btn btn-secondary">Login</a>
+            <a href="signup.html" class="btn btn-primary">Sign Up</a>
+        </div>
+        <div id="user-info" class="user-info" style="display: none; align-items:center; gap:0.5rem;">
+            <div class="user-badge" style="display:flex;align-items:center;gap:0.6rem;">
+                <div id="user-avatar" class="avatar">AA</div>
+                <div class="user-meta">
+                    <div id="username-display" class="username" style="color:var(--accent-cyan);"></div>
+                    <div id="user-role" class="role-badge" style="display:none;">role</div>
+                </div>
+            </div>
+            <button id="logout-btn" class="btn btn-secondary">Logout</button>
+        </div>
+    </nav>
+
+    <div class="products-container">
+        <h1 style="text-align: center; margin-bottom: 1rem;">All Merchandise</h1>
+
+        <div class="shop-controls" style="display:flex;gap:1rem;justify-content:center;margin-bottom:1rem;flex-wrap:wrap;">
+            <input id="search-input" type="search" placeholder="Search products by name or description" style="padding:0.5rem;width:320px;">
+            <select id="category-filter" style="padding:0.5rem;">
+                <option value="">All Categories</option>
+            </select>
+            <select id="sort-select" style="padding:0.5rem;">
+                <option value="">Sort</option>
+                <option value="price-asc">Price: Low → High</option>
+                <option value="price-desc">Price: High → Low</option>
+            </select>
+        </div>
+
+        <div class="products-grid" id="shop-products">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script src="cart.js"></script>
+    <script>
+        (function () {
+            const API_BASE = 'http://localhost:4000';
+            const container = document.getElementById('shop-products');
+            const searchInput = document.getElementById('search-input');
+            const categoryFilter = document.getElementById('category-filter');
+            const sortSelect = document.getElementById('sort-select');
+
+            let fullProducts = [];
+            let filteredProducts = [];
+
+            async function fetchProducts() {
+                try {
+                    const res = await fetch(`${API_BASE}/products`);
+                    if (!res.ok) throw new Error('Network error');
+                    fullProducts = await res.json();
+                    populateCategoryFilter();
+                    applyFilters();
+                } catch (err) {
+                    console.error('Error loading products', err);
+                    container.innerHTML = '<p>Failed to load products.</p>';
+                }
+            }
+
+            function populateCategoryFilter() {
+                const categories = Array.from(new Set(fullProducts.map(p => p.category).filter(Boolean)));
+                // clear existing (keep first "All Categories")
+                categoryFilter.innerHTML = '<option value="">All Categories</option>' + categories.map(c => `<option value="${c}">${c}</option>`).join('');
+            }
+
+            function applyFilters() {
+                const q = (searchInput.value || '').trim().toLowerCase();
+                const cat = categoryFilter.value;
+                const sort = sortSelect.value;
+
+                filteredProducts = fullProducts.filter(p => {
+                    const matchesQuery = q === '' || (p.name && p.name.toLowerCase().includes(q)) || (p.description && p.description.toLowerCase().includes(q));
+                    const matchesCat = !cat || p.category === cat;
+                    return matchesQuery && matchesCat;
+                });
+
+                if (sort === 'price-asc') filteredProducts.sort((a, b) => (a.price || 0) - (b.price || 0));
+                if (sort === 'price-desc') filteredProducts.sort((a, b) => (b.price || 0) - (a.price || 0));
+
+                renderProducts();
+            }
+
+            function renderProducts() {
+                if (!filteredProducts.length) {
+                    container.innerHTML = '<p style="text-align:center; width:100%;">No products match your search.</p>';
+                    return;
+                }
+
+                container.innerHTML = filteredProducts.map(product => `
+                    <div class="product-card">
+                        <img src="${product.image && product.image.startsWith('http') ? product.image : 'assets/' + (product.image || '')}" alt="${product.name}" class="product-image">
+                        <div class="product-info">
+                            <h3>${product.name}</h3>
+                            <div class="product-price">$${product.price}</div>
+                            <p>${product.description}</p>
+                            <button class="btn btn-primary" onclick="addToCart('${product.id}')">Add to Cart</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // debounce helper
+            function debounce(fn, wait = 250) {
+                let t;
+                return (...args) => {
+                    clearTimeout(t);
+                    t = setTimeout(() => fn(...args), wait);
+                };
+            }
+
+            // initial load
+            document.addEventListener('DOMContentLoaded', fetchProducts);
+
+            // listeners
+            searchInput.addEventListener('input', debounce(applyFilters, 200));
+            categoryFilter.addEventListener('change', applyFilters);
+            sortSelect.addEventListener('change', applyFilters);
+
+            // cross-tab updates: BroadcastChannel preferred, fallback to storage event
+            try {
+                if (window.BroadcastChannel) {
+                    const bc = new BroadcastChannel('products_channel');
+                    bc.onmessage = () => fetchProducts();
+                }
+            } catch (e) { console.warn('BroadcastChannel not available', e); }
+
+            window.addEventListener('storage', (e) => {
+                if (e.key === 'products_updated') fetchProducts();
+            });
+
+            // `addToCart` is provided by `cart.js` which adds to localStorage and notifies other pages
+        })();
+    </script>
+</body>
+
+</html>

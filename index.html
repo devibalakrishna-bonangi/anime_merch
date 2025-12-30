@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AnimeLoot - Epic Merchandise</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">ANIME LOOT</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="checkout.html">Cart <span id="cart-count" style="background:var(--accent-cyan);color:#fff;padding:0.1rem 0.4rem;border-radius:12px;font-size:0.85rem;margin-left:6px;">0</span></a></li>
+            <li id="admin-link" style="display: none;"><a href="admin.html">Admin Panel</a></li>
+        </ul>
+        <div id="auth-buttons" style="display: flex; gap: 10px;">
+            <a href="login.html" class="btn btn-secondary">Login</a>
+            <a href="signup.html" class="btn btn-primary">Sign Up</a>
+            <a href="shop.html" class="btn btn-secondary"
+                style="border-color: var(--text-color); color: var(--text-color);">Guest</a>
+        </div>
+        <div id="user-info" class="user-info" style="display: none; align-items:center; gap:0.5rem;">
+            <div class="user-badge" style="display:flex;align-items:center;gap:0.6rem;">
+                <div id="user-avatar" class="avatar">AA</div>
+                <div class="user-meta">
+                    <div id="username-display" class="username" style="color:var(--accent-cyan);"></div>
+                    <div id="user-role" class="role-badge" style="display:none;">role</div>
+                </div>
+            </div>
+            <button id="logout-btn" class="btn btn-secondary">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero" style="background-image: url('https://images.wallpapersden.com/image/download/satoru-gojo-x-sukuna-hd-jujutsu-kaisen-epic-art_bmdma22UmZqaraWkpJRmbmdsrWZlbWU.jpg');">
+        <div class="hero-content">
+            <h1>Level Up Your Collection</h1>
+            <p>Premium Anime Merchandise for the Ultimate Fan.</p>
+            <div style="display: flex; gap: 10px; justify-content: center; ">
+                <a href="shop.html" class="btn btn-primary">Shop Now</a>
+                <a href="admin.html" id="hero-admin-btn" class="btn btn-secondary" style="display: none;">Admin
+                    Dashboard</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Featured Section -->
+    <section class="products-container">
+        <h2 style="text-align: center; margin-bottom: 2rem; color: var(--accent-cyan); font-size: 3rem;">Featured Drops
+        </h2>
+        <div class="products-grid" id="featured-products">
+            <!-- Will be populated by JS -->
+        </div>
+    </section>
+
+    <script src="auth.js"></script>
+    <script src="cart.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
