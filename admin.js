@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupModal();
 });
 
-const API_BASE = 'http://localhost:4000';
+const API_BASE = 'https://json-backend-29ka.onrender.com';
 
 function checkAdmin() {
     const user = getCurrentUser();
@@ -173,3 +173,4 @@ async function saveProduct() {
             console.warn('notifyProductsChanged error', err);
         }
     }
+

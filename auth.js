@@ -1,6 +1,6 @@
 // Auth Utilities
 
-const API_URL = 'http://localhost:4000'; // json-server default port
+const API_URL = 'https://json-backend-29ka.onrender.com'; // json-server default port
 
 function getCurrentUser() {
     const userStr = localStorage.getItem('user');
@@ -59,4 +59,5 @@ document.addEventListener('DOMContentLoaded', () => {
         logoutBtn.addEventListener('click', logout);
     }
 });
+
 

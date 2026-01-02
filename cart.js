@@ -1,7 +1,7 @@
 // cart.js — simple cart stored in localStorage and helper to add items by id
 const CART_KEY = 'cart_items_v1';
 const CART_CHANNEL = 'cart_channel';
-const API_BASE = 'http://localhost:4000';
+const API_BASE = 'https://json-backend-29ka.onrender.com';
 
 function getCart() {
     try {
@@ -122,3 +122,4 @@ window.addEventListener('storage', (e) => { if (e.key === 'cart_updated') update
 // cart.js removed — no-op placeholder kept to avoid 404 if referenced
 // If you want to fully remove this file, delete it from the project.
 console.warn('cart.js is disabled — cart functionality removed per request.');
+

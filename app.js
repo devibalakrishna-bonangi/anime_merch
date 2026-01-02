@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 async function loadFeaturedProducts() {
     const container = document.getElementById('featured-products');
     try {
-        const response = await fetch('http://localhost:4000/products');
+        const response = await fetch('https://json-backend-29ka.onrender.com/products');
         const products = await response.json();
 
         // Just show first 3 for featured
@@ -43,3 +43,4 @@ if (typeof window.addToCart !== 'function') {
         alert(`Product ${productId} added to cart! (Demo)`);
     };
 }
+

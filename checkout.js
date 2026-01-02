@@ -1,6 +1,6 @@
 // checkout.js disabled — checkout functionality removed per request
 (() => {
-	const API_BASE = 'http://localhost:4000';
+	const API_BASE = 'https://json-backend-29ka.onrender.com';
 
 	function formatCurrency(n) {
 		return '$' + (Number(n) || 0).toFixed(2);
@@ -121,3 +121,4 @@
 		window.addEventListener('storage', (e) => { if (e.key === 'cart_updated') renderCart(); });
 	});
 })();
+

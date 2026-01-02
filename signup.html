@@ -49,7 +49,7 @@
 
             try {
                 // Check if user exists
-                const checkRes = await fetch(`http://localhost:4000/users?email=${email}`);
+                const checkRes = await fetch(`https://json-backend-29ka.onrender.com/users?email=${email}`);
                 const existing = await checkRes.json();
 
                 if (existing.length > 0) {
@@ -65,7 +65,7 @@
                     role: 'user' // Default role
                 };
 
-                const response = await fetch('http://localhost:4000/users', {
+                const response = await fetch('https://json-backend-29ka.onrender.com/users', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(newUser)
